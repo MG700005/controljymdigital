@@ -127,6 +127,14 @@
       </div>
       <div id="records" class="records"></div>
     </section>
+
+    <section class="portfolio">
+      <div class="list-header">
+        <h2>Portafolio</h2>
+        <p id="portfolioEmpty" class="muted">Sin emprendimientos registrados.</p>
+      </div>
+      <div id="portfolioList" class="portfolio-list"></div>
+    </section>
   </main>
 
   <template id="recordTemplate">
@@ -163,6 +171,10 @@
           <button class="pill" data-toggle="pagoEfectuado">No</button>
         </div>
         <div class="note">
+          <p class="label">Link</p>
+          <a class="note-text link" data-field="link" href="#" target="_blank" rel="noopener"></a>
+        </div>
+        <div class="note">
           <p class="label">Observaciones</p>
           <p class="note-text" data-field="notes"></p>
         </div>
@@ -174,6 +186,10 @@
           <label class="field">
             <span>Emprendimiento</span>
             <input type="text" maxlength="80" data-field="editEmprendimiento" />
+          </label>
+          <label class="field">
+            <span>Link (opcional)</span>
+            <input type="url" data-field="editLink" placeholder="https://" />
           </label>
           <label class="field">
             <span>Observaciones</span>

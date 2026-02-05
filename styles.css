@@ -318,6 +318,42 @@ h1 {
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
 }
 
+.portfolio {
+  margin-top: 28px;
+}
+
+.portfolio-list {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.portfolio-card {
+  background: var(--surface-alt);
+  border-radius: 16px;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.portfolio-name {
+  font-weight: 600;
+  font-size: 15px;
+}
+
+.portfolio-link {
+  font-size: 14px;
+  color: var(--accent-strong);
+  text-decoration: none;
+  word-break: break-all;
+}
+
+.portfolio-link:hover {
+  text-decoration: underline;
+}
+
 .card {
   background: var(--surface);
   border-radius: 20px;
@@ -392,9 +428,13 @@ h1 {
 }
 
 .card-body {
-  display: flex;
+  display: none;
   flex-direction: column;
   gap: 12px;
+}
+
+.card.expanded .card-body {
+  display: flex;
 }
 
 .toggle {

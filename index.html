@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Control de clientes - Catalogo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="bg-orb orb-a"></div>
+  <div class="bg-orb orb-b"></div>
+
+  <header class="hero">
+    <div class="hero-inner">
+      <p class="eyebrow">Registro rapido</p>
+      <h1>Control de clientes que piden catalogo</h1>
+      <p class="sub">Guarda el numero de WhatsApp y actualiza el estado de seguimiento.</p>
+    </div>
+  </header>
+
+  <main class="content">
+    <section id="formPanel" class="panel">
+      <div class="panel-header">
+        <h2>Agregar numero</h2>
+        <p>Solo numeros, opcional + al inicio.</p>
+      </div>
+      <form id="recordForm" class="form">
+        <label class="field">
+          <span>Numero de WhatsApp</span>
+          <input id="whatsappInput" type="tel" inputmode="tel" placeholder="+502 5555 5555" autocomplete="tel" />
+        </label>
+        <label class="field">
+          <span>Emprendimiento</span>
+          <input id="emprendimientoInput" type="text" maxlength="80" placeholder="Ej. Ropa deportiva" />
+        </label>
+        <label class="field">
+          <span>Observaciones</span>
+          <textarea id="notesInput" rows="3" maxlength="220" placeholder="Ej. Pidio catalogo de temporada"></textarea>
+        </label>
+        <p id="formError" class="form-error" aria-live="polite"></p>
+        <button type="submit" class="btn primary">Guardar</button>
+        <p id="formSuccess" class="form-success" aria-live="polite"></p>
+      </form>
+    </section>
+
+    <section class="stats">
+      <div class="stat">
+        <p class="stat-label">Total</p>
+        <p id="statTotal" class="stat-value">0</p>
+      </div>
+      <div class="stat">
+        <p class="stat-label">Preview pendiente</p>
+        <p id="statPreview" class="stat-value">0</p>
+      </div>
+      <div class="stat">
+        <p class="stat-label">Caducados</p>
+        <p id="statCaducado" class="stat-value">0</p>
+      </div>
+      <div class="stat">
+        <p class="stat-label">Pagos efectuados</p>
+        <p id="statPago" class="stat-value">0</p>
+      </div>
+    </section>
+
+    <details class="panel tools-collapsible">
+      <summary class="tools-summary">Herramientas y filtros</summary>
+      <div class="tools-body">
+        <div class="tools-grid">
+          <label class="field">
+            <span>Buscar</span>
+            <input id="searchInput" type="search" placeholder="Numero, emprendimiento u observaciones" />
+          </label>
+          <label class="field">
+            <span>Ordenar</span>
+            <select id="sortSelect">
+              <option value="recent">Mas recientes</option>
+              <option value="oldest">Mas antiguos</option>
+              <option value="caducado">Caducados primero</option>
+              <option value="pago">Pagos primero</option>
+              <option value="preview">Preview pendiente primero</option>
+            </select>
+          </label>
+          <label class="field">
+            <span>Preview enviado</span>
+            <select id="filterPreview">
+              <option value="all">Todos</option>
+              <option value="yes">Si</option>
+              <option value="no">No</option>
+            </select>
+          </label>
+          <label class="field">
+            <span>Periodo caducado</span>
+            <select id="filterCaducado">
+              <option value="all">Todos</option>
+              <option value="yes">Si</option>
+              <option value="no">No</option>
+            </select>
+          </label>
+          <label class="field">
+            <span>Pago efectuado</span>
+            <select id="filterPago">
+              <option value="all">Todos</option>
+              <option value="yes">Si</option>
+              <option value="no">No</option>
+            </select>
+          </label>
+        </div>
+        <div class="tools-actions">
+          <button id="exportCsv" class="btn ghost">Exportar CSV</button>
+          <label class="btn ghost file-btn">
+            Importar CSV
+            <input id="importCsv" type="file" accept=".csv,text/csv" />
+          </label>
+          <button id="resetFilters" class="btn ghost">Limpiar filtros</button>
+        </div>
+      </div>
+    </details>
+
+    <section class="list">
+      <div class="list-header">
+        <h2>Registros</h2>
+        <p id="filterInfo" class="muted"></p>
+        <p id="emptyState" class="muted">Todavia no hay registros.</p>
+      </div>
+      <div id="records" class="records"></div>
+    </section>
+  </main>
+
+  <template id="recordTemplate">
+    <article class="card">
+      <div class="card-header">
+        <div class="card-row">
+          <div class="card-cell">
+            <a class="value link" data-field="whatsapp" href="#" target="_blank" rel="noopener"></a>
+          </div>
+          <div class="card-cell">
+            <p class="value" data-field="emprendimiento"></p>
+          </div>
+        </div>
+        <div class="card-row">
+          <div class="card-cell">
+            <span class="chip" data-field="created"></span>
+          </div>
+          <div class="card-cell align-end">
+            <button class="btn small ghost" data-action="edit">Editar</button>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="toggle">
+          <span>Preview enviado</span>
+          <button class="pill" data-toggle="previewEnviado">No</button>
+        </div>
+        <div class="toggle">
+          <span>Periodo caducado</span>
+          <button class="pill" data-toggle="periodoCaducado">No</button>
+        </div>
+        <div class="toggle">
+          <span>Pago efectuado</span>
+          <button class="pill" data-toggle="pagoEfectuado">No</button>
+        </div>
+        <div class="note">
+          <p class="label">Observaciones</p>
+          <p class="note-text" data-field="notes"></p>
+        </div>
+        <div class="edit-panel" data-field="editPanel">
+          <label class="field">
+            <span>Editar numero</span>
+            <input type="tel" data-field="editWhatsapp" />
+          </label>
+          <label class="field">
+            <span>Emprendimiento</span>
+            <input type="text" maxlength="80" data-field="editEmprendimiento" />
+          </label>
+          <label class="field">
+            <span>Observaciones</span>
+            <textarea rows="3" maxlength="220" data-field="editNotes"></textarea>
+          </label>
+          <p class="form-error" data-field="editError"></p>
+          <div class="edit-actions">
+            <button class="btn small primary" data-action="save">Guardar</button>
+            <button class="btn small ghost" data-action="cancel">Cancelar</button>
+          </div>
+        </div>
+      </div>
+    </article>
+  </template>
+
+  <script src="app.js"></script>
+</body>
+</html>
